@@ -40,7 +40,7 @@ info() {
 
 for type in unsigned signed; do
 
-    for arch in x86_64 arm64; do
+    for arch in x86_64; do
 
         for ubuntuver in xenial bionic focal; do
 
@@ -182,7 +182,7 @@ done # type (signed/unsigned)
 ### 2. CENTOS (centos7, centos8)
 ###
 
-for arch in x86_64 arm64; do
+for arch in x86_64; do
 
     for centosver in centos7 centos8; do
 
@@ -286,7 +286,7 @@ done #arch
 
 ### fedora29-34
 
-for arch in x86_64 arm64; do
+for arch in x86_64; do
 
     for fedoraver in fedora29 fedora30 fedora31 fedora32 fedora33 fedora34; do
 
@@ -393,7 +393,7 @@ done #arch
 ### 4. amazon (amazon1, amazon2)
 ###
 
-for arch in x86_64 arm64; do
+for arch in x86_64; do
 
     for amazonver in amazon1 amazon2; do
 
@@ -509,7 +509,7 @@ done #arch
 ###
 
 regex="linux-image-[0-9]+\.[0-9]+\.[0-9].*-dbg"
-for arch in x86_64 arm64; do
+for arch in x86_64; do
 
     for debianver in stretch buster bullseye; do
         if [ "${1}" != "${debianver}" ]; then
@@ -652,7 +652,7 @@ done # arch
 ### 6. ORACLE LINUX (ol7, ol8)
 ###
 
-for arch in x86_64 arm64; do
+for arch in x86_64; do
 
     for olver in ol7 ol8; do
 
