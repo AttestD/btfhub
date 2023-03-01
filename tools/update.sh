@@ -93,8 +93,8 @@ for type in unsigned signed; do
                 mkdir -p "${basedir}/ubuntu/${ubuntuver}/${arch}"
                 cd "${basedir}/ubuntu/${ubuntuver}/${arch}" || exiterr "no ${ubuntuver} dir found"
 
-                wget http://ddebs.ubuntu.com/dists/${ubuntuver}/main/binary-${altarch}/Packages -O ${ubuntuver}
-                wget http://ddebs.ubuntu.com/dists/${ubuntuver}-updates/main/binary-${altarch}/Packages -O ${ubuntuver}-updates
+                wget ${repository}/dists/${ubuntuver}/main/binary-${altarch}/Packages -O ${ubuntuver}
+                wget ${repository}/dists/${ubuntuver}-updates/main/binary-${altarch}/Packages -O ${ubuntuver}-updates
 
                 [ ! -f ${ubuntuver} ] && exiterr "no ${ubuntuver} packages file found"
                 [ ! -f ${ubuntuver}-updates ] && exiterr "no ${ubuntuver}-updates packages file found"
@@ -115,7 +115,7 @@ for type in unsigned signed; do
                     echo FILENAME: "${filename}"
                     echo VERSION: "${version}"
 
-                    if [ -f "${version}.btf.tar.xz" ] || [ -f "${version}.failed" ]; then
+                    if [ -f "${version}.btf.tar.xz" ] || [ -f "${version}.failed" ] || [ -f "${version}.builtin" ]; then
                         info "file ${version}.btf already exists"
                         continue
                     fi
@@ -152,7 +152,7 @@ for type in unsigned signed; do
 
                     rm -rf "./usr"
 
-                    objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux" || \
+                    objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux"; touch "${version}.builtin" || \
                     {
                         pahole --btf_encode_detached "${version}.btf" "${version}.vmlinux"
                         # pahole "./${version}.btf" > "${version}.txt"
@@ -729,7 +729,7 @@ for arch in x86_64 arm64; do
             echo FILENAME: "${filename}"
             echo VERSION: "${version}"
 
-            if [ -f "${version}.btf.tar.xz" ] || [ -f "${version}.failed" ]; then
+            if [ -f "${version}.btf.tar.xz" ] || [ -f "${version}.failed" ] || [ -f "${version}.builtin" ]; then
                 info "file ${version}.btf already exists"
                 continue
             fi
@@ -753,7 +753,7 @@ for arch in x86_64 arm64; do
             }
 
             # check for existing BTF section
-            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux" || \
+            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux"; touch "${version}.builtin" || \
             {
                 # generate BTF raw file from DWARF data
                 info "generating BTF file: ${version}.btf"
@@ -845,7 +845,7 @@ for rhelver in rhel7 rhel8; do
             echo FILENAME: "${filename}"
             echo VERSION: "${version}"
 
-            if [ -f "${version}.btf.tar.xz" ] || [ -f "${version}.failed" ]; then
+            if [ -f "${version}.btf.tar.xz" ] || [ -f "${version}.failed" ] || [ -f "${version}.builtin" ]; then
                 info "file ${version}.btf already exists"
                 continue
             fi
@@ -869,7 +869,7 @@ for rhelver in rhel7 rhel8; do
                 continue
             }
 
-            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux" || \
+            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux"; touch "${version}.builtin" || \
             {
                 # generate BTF raw file from DWARF data
                 echo "INFO: generating BTF file: ${version}.btf"
