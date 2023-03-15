@@ -152,7 +152,7 @@ for type in unsigned signed; do
 
                     rm -rf "./usr"
 
-                    objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux"; touch "${version}.builtin" || \
+                    objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux" && touch "${version}.builtin" || \
                     {
                         pahole --btf_encode_detached "${version}.btf" "${version}.vmlinux"
                         # pahole "./${version}.btf" > "${version}.txt"
@@ -753,7 +753,7 @@ for arch in x86_64; do
             }
 
             # check for existing BTF section
-            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux"; touch "${version}.builtin" || \
+            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux" && touch "${version}.builtin" || \
             {
                 # generate BTF raw file from DWARF data
                 info "generating BTF file: ${version}.btf"
@@ -869,7 +869,7 @@ for rhelver in rhel7 rhel8; do
                 continue
             }
 
-            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux"; touch "${version}.builtin" || \
+            objdump -h -j .BTF "${version}.vmlinux" 2>&1 >/dev/null && info ".BTF section already exists in ${version}.vmlinux" && touch "${version}.builtin" || \
             {
                 # generate BTF raw file from DWARF data
                 echo "INFO: generating BTF file: ${version}.btf"
