@@ -1,21 +1,16 @@
-package main
+package job
 
 import (
 	"context"
 	"log"
 )
 
-type Job interface {
-	Do(context.Context) error
-	Reply() chan<- interface{}
-}
-
 func StartWorker(ctx context.Context, jobchan <-chan Job) error {
 	for {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
-		case job, ok := <-jobchan:
+		case job, ok := <-jobchan: // receive job (Do, Reply)
 			if !ok {
 				return nil
 			}

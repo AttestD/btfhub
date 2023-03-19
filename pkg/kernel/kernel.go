@@ -1,28 +1,28 @@
-package main
+package kernel
 
 import (
 	"regexp"
 	"strconv"
 )
 
-type kernelVersion struct {
+type Version struct {
 	str  string
 	ints []int
 }
 
-func newKernelVersion(v string) kernelVersion {
-	return kernelVersion{str: v, ints: splitIntoInts(v)}
+func NewKernelVersion(v string) Version {
+	return Version{str: v, ints: splitIntoInts(v)}
 }
 
-func (k kernelVersion) IsZero() bool {
+func (k Version) IsZero() bool {
 	return k.str == ""
 }
 
-func (k kernelVersion) String() string {
+func (k Version) String() string {
 	return k.str
 }
 
-func (k kernelVersion) Less(j kernelVersion) bool {
+func (k Version) Less(j Version) bool {
 	vi, vj := k.ints, j.ints
 	for x, vni := range vi {
 		if x > (len(vj) - 1) {
